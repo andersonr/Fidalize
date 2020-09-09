@@ -139,6 +139,9 @@ function NavBar(props) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
 
+  const username = JSON.parse(localStorage.getItem('@fides:user')).name;
+  console.log(username);
+
   const openMobileDrawer = useCallback(() => {
     setIsMobileOpen(true);
   }, [setIsMobileOpen]);
@@ -280,7 +283,7 @@ function NavBar(props) {
                 <ListItemText
                   className={classes.username}
                   primary={
-                    <Typography color="secondary">Username</Typography>
+                    <Typography color="secondary">{username}</Typography>
                   }
                 />
               )}
