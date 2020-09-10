@@ -52,50 +52,30 @@ function LoginDialog(props) {
   const loginPassword = useRef();
 
   const login = useCallback(async () => {
-    console.log("iniciou");
     setIsLoading(true);
     setStatus(null);
     const email = loginEmail.current.value;
     const password = loginPassword.current.value;
-    // let response = "";
 
-    // try {
-
-    const response = await api.post('/sessions', { email, password });
-
-    // } catch (error) {
-    //   console.log(error);
-    //   setStatus('invalidEmail');
-    //   setIsLoading(false);
-    //   return;
-    // }
-
-    console.log(response);
-    const { token, user } = response.data;
-    // if (!response.data) {
-    //   return;
-    // }
-
-
-    localStorage.setItem('@fides:token', token);
-    localStorage.setItem('@fides:user', JSON.stringify(user));
-    history.push("/c/dashboard");
-    console.log(token + " " + user)
-    // if (loginEmail.current.value !== "test@web.com") {
-    //   setTimeout(() => {
-    //     setStatus("invalidEmail");
-    //     setIsLoading(false);
-    //   }, 1500);
-    // } else if (loginPassword.current.value !== "HaRzwc") {
-    //   setTimeout(() => {
-    //     setStatus("invalidPassword");
-    //     setIsLoading(false);
-    //   }, 1500);
-    // } else {
-    //   setTimeout(() => {
-    //     history.push("/c/dashboard");
-    //   }, 150);
-    // }
+    try {
+      const response = await api.post('/sessions', { email, password });
+      console.log(response);
+      const { token, user } = response.data;
+      localStorage.setItem('@fides:token', token);
+      localStorage.setItem('@fides:user', JSON.stringify(user));
+      history.push("/c/dashboard");
+      console.log(token + " " + user)
+    } catch (error) {
+      if (error.response.data) {
+        if (error.response.data.error === 'User not found') {
+          setStatus('invalidEmail');
+        } else if (error.response.data.error === 'Password does not match') {
+          setStatus('invalidPassword');
+        }
+      }
+      console.log(error.response.data.error);
+      setIsLoading(false);
+    }
   }, [history, setStatus]);
 
   return (
@@ -167,18 +147,12 @@ function LoginDialog(props) {
               control={<Checkbox color="primary" />}
               label={<Typography variant="body1">Remember me</Typography>}
             />
-            {status === "verificationEmailSend" ? (
+            {status === "verificationEmailSend" && (
               <HighlightedInformation>
                 We have send instructions on how to reset your password to your
                 email address
               </HighlightedInformation>
-            ) : (
-                <HighlightedInformation>
-                  Email is: <b>test@web.com</b>
-                  <br />
-                Password is: <b>HaRzwc</b>
-                </HighlightedInformation>
-              )}
+            )}
           </Fragment>
         }
         actions={
