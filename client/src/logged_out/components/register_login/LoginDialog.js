@@ -14,6 +14,7 @@ import FormDialog from "../../../shared/components/FormDialog";
 import HighlightedInformation from "../../../shared/components/HighlightedInformation";
 import ButtonCircularProgress from "../../../shared/components/ButtonCircularProgress";
 import VisibilityPasswordTextField from "../../../shared/components/VisibilityPasswordTextField";
+import api from '../../../shared/services/api';
 
 const styles = (theme) => ({
   forgotPassword: {
@@ -50,25 +51,32 @@ function LoginDialog(props) {
   const loginEmail = useRef();
   const loginPassword = useRef();
 
-  const login = useCallback(() => {
+  const login = useCallback(async () => {
     setIsLoading(true);
     setStatus(null);
-    if (loginEmail.current.value !== "test@web.com") {
-      setTimeout(() => {
-        setStatus("invalidEmail");
-        setIsLoading(false);
-      }, 1500);
-    } else if (loginPassword.current.value !== "HaRzwc") {
-      setTimeout(() => {
-        setStatus("invalidPassword");
-        setIsLoading(false);
-      }, 1500);
-    } else {
-      setTimeout(() => {
-        history.push("/c/dashboard");
-      }, 150);
+    const email = loginEmail.current.value;
+    const password = loginPassword.current.value;
+
+    try {
+      const response = await api.post('/sessions', { email, password });
+      console.log(response);
+      const { token, user } = response.data;
+      localStorage.setItem('@fides:token', token);
+      localStorage.setItem('@fides:user', JSON.stringify(user));
+      history.push("/c/dashboard");
+      console.log(token + " " + user)
+    } catch (error) {
+      if (error.response.data) {
+        if (error.response.data.error === 'User not found') {
+          setStatus('invalidEmail');
+        } else if (error.response.data.error === 'Password does not match') {
+          setStatus('invalidPassword');
+        }
+      }
+      console.log(error.response.data.error);
+      setIsLoading(false);
     }
-  }, [setIsLoading, loginEmail, loginPassword, history, setStatus]);
+  }, [history, setStatus]);
 
   return (
     <Fragment>
@@ -127,8 +135,8 @@ function LoginDialog(props) {
                     <b>&quot;Forgot Password?&quot;</b> to reset it.
                   </span>
                 ) : (
-                  ""
-                )
+                    ""
+                  )
               }
               FormHelperTextProps={{ error: true }}
               onVisibilityChange={setIsPasswordVisible}
@@ -139,16 +147,10 @@ function LoginDialog(props) {
               control={<Checkbox color="primary" />}
               label={<Typography variant="body1">Remember me</Typography>}
             />
-            {status === "verificationEmailSend" ? (
+            {status === "verificationEmailSend" && (
               <HighlightedInformation>
                 We have send instructions on how to reset your password to your
                 email address
-              </HighlightedInformation>
-            ) : (
-              <HighlightedInformation>
-                Email is: <b>test@web.com</b>
-                <br />
-                Password is: <b>HaRzwc</b>
               </HighlightedInformation>
             )}
           </Fragment>

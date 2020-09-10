@@ -13,6 +13,7 @@ import FormDialog from "../../../shared/components/FormDialog";
 import HighlightedInformation from "../../../shared/components/HighlightedInformation";
 import ButtonCircularProgress from "../../../shared/components/ButtonCircularProgress";
 import VisibilityPasswordTextField from "../../../shared/components/VisibilityPasswordTextField";
+import api from '../../../shared/services/api';
 
 const styles = (theme) => ({
   link: {
@@ -37,10 +38,13 @@ function RegisterDialog(props) {
   const [hasTermsOfServiceError, setHasTermsOfServiceError] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const registerTermsCheckbox = useRef();
+  const registerName = useRef();
+  const registerEmail = useRef();
   const registerPassword = useRef();
   const registerPasswordRepeat = useRef();
+  const [createError, setCreateError] = useState('');
 
-  const register = useCallback(() => {
+  const register = useCallback(async () => {
     if (!registerTermsCheckbox.current.checked) {
       setHasTermsOfServiceError(true);
       return;
@@ -51,15 +55,32 @@ function RegisterDialog(props) {
       setStatus("passwordsDontMatch");
       return;
     }
-    setStatus(null);
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+
+    try {
+      const response = await api.post('/users', {
+        name: registerName.current.value, email: registerEmail.current.value,
+        password: registerPassword.current.value
+      });
+      setStatus('accountCreated');
+    } catch (error) {
+      if (error.response.data) {
+
+        if (error.response.data.error === 'User not found') {
+          setStatus('invalidEmail');
+        } else if (error.response.data.error === 'Password does not match') {
+          setStatus('invalidPassword');
+        } else {
+          setCreateError(error.response.data.error)
+        }
+      }
+    }
+
   }, [
     setIsLoading,
     setStatus,
     setHasTermsOfServiceError,
+    registerEmail,
+    registerName,
     registerPassword,
     registerPasswordRepeat,
     registerTermsCheckbox,
@@ -79,13 +100,30 @@ function RegisterDialog(props) {
       hasCloseIcon
       content={
         <Fragment>
+          {createError && <HighlightedInformation>
+            {createError}
+          </HighlightedInformation>
+          }
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            inputRef={registerName}
+            label="Nome"
+            autoFocus
+            autoComplete="off"
+            type="text"
+            FormHelperTextProps={{ error: true }}
+          />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
             error={status === "invalidEmail"}
-            label="Email Address"
+            label="Email"
+            inputRef={registerEmail}
             autoFocus
             autoComplete="off"
             type="email"
@@ -212,10 +250,10 @@ function RegisterDialog(props) {
               email we have sent to you before logging in.
             </HighlightedInformation>
           ) : (
-            <HighlightedInformation>
-              Registration is disabled until we go live.
-            </HighlightedInformation>
-          )}
+              <HighlightedInformation>
+                Registration is disabled until we go live.
+              </HighlightedInformation>
+            )}
         </Fragment>
       }
       actions={
