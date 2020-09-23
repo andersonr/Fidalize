@@ -1,5 +1,5 @@
-import React, { Fragment, useRef, useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useRef, useCallback, useState, useEffect } from "react";
+import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import {
@@ -138,9 +138,7 @@ function NavBar(props) {
   const links = useRef([]);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
-
-  const username = JSON.parse(localStorage.getItem('@fides:user')).name;
-  console.log(username);
+  const [username, setUsername] = useState('Name');
 
   const openMobileDrawer = useCallback(() => {
     setIsMobileOpen(true);
@@ -157,6 +155,25 @@ function NavBar(props) {
   const closeDrawer = useCallback(() => {
     setIsSideDrawerOpen(false);
   }, [setIsSideDrawerOpen]);
+
+  const clearSession = useCallback(() => {
+    localStorage.removeItem('@fides:user')
+    localStorage.removeItem('@fides:token')
+  }, []);
+
+  useEffect(() => {
+    const userLocalStorage = localStorage.getItem('@fides:user');
+    let user = '';
+    if (userLocalStorage) {
+      user = JSON.parse(localStorage.getItem('@fides:user')).name;
+      console.log(user);
+    }
+    setUsername(user);
+  });
+
+  if (!username) {
+    return <Redirect to={"/"} />;
+  }
 
   const menuItems = [
     {
@@ -212,6 +229,7 @@ function NavBar(props) {
     {
       link: "/",
       name: "Logout",
+      onClick: clearSession,
       icon: {
         desktop: (
           <PowerSettingsNewIcon className="text-white" fontSize="small" />

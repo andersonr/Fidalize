@@ -12,11 +12,21 @@ import { createMuiTheme, responsiveFontSizes } from "@material-ui/core";
 
 //Paletta utilizada:
 //  https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=006800&secondary.color=aed581
+//Rissardi
+// const primary = "#006800";
+// const secondary = "#aed581";
+// const black = "#7da453";
+// const darkBlack = "#94af76";
+// const background = "#F5F5F6";
+// const warningLight = "rgba(253, 200, 69, .3)";
+// const warningMain = "rgba(253, 200, 69, .5)";
+// const warningDark = "rgba(253, 200, 69, .7)";
 
-const primary = "#006800";
-const secondary = "#aed581";
-const black = "#7da453";
-const darkBlack = "#94af76";
+//Ricardo
+const primary = "#407088";
+const secondary = "#70adb5";
+const black = "#407088";
+const darkBlack = "#132743";
 const background = "#F5F5F6";
 const warningLight = "rgba(253, 200, 69, .3)";
 const warningMain = "rgba(253, 200, 69, .5)";
