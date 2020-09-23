@@ -52,11 +52,12 @@ function LoginDialog(props) {
   const loginPassword = useRef();
 
   const login = useCallback(async () => {
+    console.log('Inicio');
     setIsLoading(true);
     setStatus(null);
     const email = loginEmail.current.value;
     const password = loginPassword.current.value;
-
+    console.log('Inicio-2');
     try {
       const response = await api.post('/sessions', { email, password });
       console.log(response);
@@ -66,6 +67,7 @@ function LoginDialog(props) {
       history.push("/c/dashboard");
       console.log(token + " " + user)
     } catch (error) {
+      console.log('Errou');
       if (error.response.data) {
         if (error.response.data.error === 'User not found') {
           setStatus('invalidEmail');
