@@ -8,6 +8,7 @@ import {
   Typography,
   FormControlLabel,
   withStyles,
+  Snackbar
 } from "@material-ui/core";
 import FormDialog from "../../../shared/components/FormDialog";
 import HighlightedInformation from "../../../shared/components/HighlightedInformation";
@@ -33,7 +34,7 @@ const styles = (theme) => ({
 });
 
 function RegisterDialog(props) {
-  const { setStatus, theme, onClose, openTermsDialog, status, classes } = props;
+  const { setStatus, theme, onClose, openTermsDialog, status, classes, goToLogin } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [hasTermsOfServiceError, setHasTermsOfServiceError] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -61,7 +62,11 @@ function RegisterDialog(props) {
         name: registerName.current.value, email: registerEmail.current.value,
         password: registerPassword.current.value
       });
+      setCreateError(null);
       setStatus('accountCreated');
+
+      setTimeout(() => { goToLogin(); }, 6000)
+      
     } catch (error) {
       if (error.response.data) {
 
@@ -91,7 +96,7 @@ function RegisterDialog(props) {
       loading={isLoading}
       onClose={onClose}
       open
-      headline="Register"
+      headline="Cadastre-se"
       onFormSubmit={(e) => {
         e.preventDefault();
         register();
@@ -122,7 +127,7 @@ function RegisterDialog(props) {
             required
             fullWidth
             error={status === "invalidEmail"}
-            label="Email"
+            label="E-mail"
             inputRef={registerEmail}
             autoFocus
             autoComplete="off"
@@ -142,7 +147,7 @@ function RegisterDialog(props) {
             error={
               status === "passwordTooShort" || status === "passwordsDontMatch"
             }
-            label="Password"
+            label="Senha"
             inputRef={registerPassword}
             autoComplete="off"
             onChange={() => {
@@ -155,10 +160,10 @@ function RegisterDialog(props) {
             }}
             helperText={(() => {
               if (status === "passwordTooShort") {
-                return "Create a password at least 6 characters long.";
+                return "A senha deve ter ao menos 6 caracteres!";
               }
               if (status === "passwordsDontMatch") {
-                return "Your passwords dont match.";
+                return "As senhas estão diferentes.";
               }
               return null;
             })()}
@@ -174,7 +179,7 @@ function RegisterDialog(props) {
             error={
               status === "passwordTooShort" || status === "passwordsDontMatch"
             }
-            label="Repeat Password"
+            label="Confirme a senha"
             inputRef={registerPasswordRepeat}
             autoComplete="off"
             onChange={() => {
@@ -187,10 +192,10 @@ function RegisterDialog(props) {
             }}
             helperText={(() => {
               if (status === "passwordTooShort") {
-                return "Create a password at least 6 characters long.";
+                return "A senha deve ter ao menos 6 caracteres!";
               }
               if (status === "passwordsDontMatch") {
-                return "Your passwords dont match.";
+                return "As senhas estão diferentes.";
               }
             })()}
             FormHelperTextProps={{ error: true }}
@@ -210,7 +215,7 @@ function RegisterDialog(props) {
             }
             label={
               <Typography variant="body1">
-                I agree to the
+                Eu aceito os
                 <span
                   className={classes.link}
                   onClick={isLoading ? null : openTermsDialog}
@@ -227,7 +232,7 @@ function RegisterDialog(props) {
                   }}
                 >
                   {" "}
-                  terms of service
+                  termos de serviço e a política de privacidade
                 </span>
               </Typography>
             }
@@ -240,20 +245,16 @@ function RegisterDialog(props) {
                 marginTop: theme.spacing(-1),
               }}
             >
-              In order to create an account, you have to accept our terms of
-              service.
+              Para poder criar uma conta, você deve aceitar os termos e a politica de privacidade.
             </FormHelperText>
           )}
-          {status === "accountCreated" ? (
+          
+          { status === "accountCreated" &&
             <HighlightedInformation>
-              We have created your account. Please click on the link in the
-              email we have sent to you before logging in.
+              Conta criada com sucesso! Em instântes será redirecionado para a tela de login!
             </HighlightedInformation>
-          ) : (
-              <HighlightedInformation>
-                Registration is disabled until we go live.
-              </HighlightedInformation>
-            )}
+          }
+          
         </Fragment>
       }
       actions={
@@ -265,7 +266,7 @@ function RegisterDialog(props) {
           color="secondary"
           disabled={isLoading}
         >
-          Register
+          Registrar
           {isLoading && <ButtonCircularProgress />}
         </Button>
       }

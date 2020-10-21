@@ -70,7 +70,8 @@ function NavBar(props) {
     {
       name: "Login",
       onClick: openLoginDialog,
-      icon: <LockOpenIcon className="text-white" />
+      icon: <LockOpenIcon className="text-white" />,
+      id: "LGN"
     }
   ];
   return (
@@ -120,6 +121,9 @@ function NavBar(props) {
                         //color="white"
                         size="large"
                         classes={{ text: classes.menuButtonText }}
+                        key={element.name}
+                        name={element.name}                    
+                        id={element.id}
                       >
                         {element.name}
                       </Button>
@@ -134,6 +138,8 @@ function NavBar(props) {
                     onClick={element.onClick}
                     classes={{ text: classes.menuButtonText }}
                     key={element.name}
+                    name={element.name}                    
+                    id={element.id}
                   >
                     {element.name}
                   </Button>

@@ -100,7 +100,7 @@ function LoginDialog(props) {
               error={status === "invalidEmail"}
               required
               fullWidth
-              label="Email Address"
+              label="E-mail"
               inputRef={loginEmail}
               autoFocus
               autoComplete="off"
@@ -112,7 +112,7 @@ function LoginDialog(props) {
               }}
               helperText={
                 status === "invalidEmail" &&
-                "This email address isn't associated with an account."
+                "Nenhuma conta encontrada com esse e-mail!"
               }
               FormHelperTextProps={{ error: true }}
             />
@@ -122,7 +122,7 @@ function LoginDialog(props) {
               required
               fullWidth
               error={status === "invalidPassword"}
-              label="Password"
+              label="Senha"
               inputRef={loginPassword}
               autoComplete="off"
               onChange={() => {
@@ -133,8 +133,8 @@ function LoginDialog(props) {
               helperText={
                 status === "invalidPassword" ? (
                   <span>
-                    Incorrect password. Try again, or click on{" "}
-                    <b>&quot;Forgot Password?&quot;</b> to reset it.
+                    Senha errada! Tente novamente ou clique em{" "}
+                    <b>&quot;Esqueceu a senha?&quot;</b> para recuperar a senha.
                   </span>
                 ) : (
                     ""
@@ -147,12 +147,11 @@ function LoginDialog(props) {
             <FormControlLabel
               className={classes.formControlLabel}
               control={<Checkbox color="primary" />}
-              label={<Typography variant="body1">Remember me</Typography>}
+              label={<Typography variant="body1">Continuar conectado</Typography>}
             />
             {status === "verificationEmailSend" && (
               <HighlightedInformation>
-                We have send instructions on how to reset your password to your
-                email address
+                Enviamos os dados de recuperação da conta através do seu e-mail.
               </HighlightedInformation>
             )}
           </Fragment>
@@ -190,7 +189,7 @@ function LoginDialog(props) {
                 }
               }}
             >
-              Forgot Password?
+              Esqueceu a senha?
             </Typography>
           </Fragment>
         }
