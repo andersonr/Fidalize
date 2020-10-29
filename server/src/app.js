@@ -5,7 +5,7 @@ import express from 'express';
 import path from 'path';
 import Youch from 'youch';
 import * as Sentry from '@sentry/node';
-//import sentryConfig from './config/sentry';
+import sentryConfig from './config/sentry';
 import 'express-async-errors';
 import routes from './routes';
 import './database';
@@ -13,7 +13,7 @@ import './database';
 class App {
   constructor() {
     this.server = express();
-    // Sentry.init(sentryConfig);
+    Sentry.init(sentryConfig);
 
     this.middlewares();
     this.routes();
