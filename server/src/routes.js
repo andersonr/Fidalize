@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import UserController from './app/controllers/UserController';
+import CampaignController from './app/controllers/CampaignController';
 import SessionController from './app/controllers/SessionController';
 import authMiddleware from './app/middlewares/auth';
 import ProviderController from './app/controllers/ProviderController';
@@ -17,6 +18,7 @@ routes.post('/sessions', SessionController.store);
 routes.use(authMiddleware);
 routes.put('/users', UserController.update);
 routes.get('/providers', ProviderController.index);
+routes.post('/campaign', CampaignController.store);
 // routes.post('/files', upload.single('file'), FileController.store);
 // para upload de arquivos.
 
