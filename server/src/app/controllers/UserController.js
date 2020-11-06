@@ -20,7 +20,9 @@ class UserController {
         .json({ error: 'Dados incorretos! Verifique os dados inseridos.' });
     }
 
-    const userExists = await User.findOne({ where: { email: req.body.email } });
+    const userExists = await User.findOne({
+      where: { email: req.body.email },
+    });
 
     if (userExists) {
       return res.status(400).json({ error: 'Este usuário já está em uso!' });

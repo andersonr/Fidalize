@@ -1,0 +1,9 @@
+server/node_modules
+server/yarn-error.log
+server/.gitignore
+server/.yarn-error.log
+server/yarn.lock
+server/tmp/uploads
+server/pass.txt
+server/.env
+.env
