@@ -105,10 +105,10 @@ function FeatureSection(props) {
     <div style={{ backgroundColor: "#FFFFFF" }}>
       <div className="container-fluid lg-p-top">
         <Typography variant="h3" align="center" className="lg-mg-bottom">
-          Features
+          Como funciona?
         </Typography>
         <div className="container-fluid">
-          <Grid container spacing={calculateSpacing(width)}>
+          {/* <Grid container spacing={calculateSpacing(width)}>
             {features.map(element => (
               <Grid
                 item
@@ -128,6 +128,45 @@ function FeatureSection(props) {
                 />
               </Grid>
             ))}
+          </Grid> */}
+
+          <Grid container spacing="2">
+            <Grid item xs>
+              <FeatureCard
+                Icon={<MeassageIcon style={{ fontSize: iconSize }} />}
+                color={"#304FFE"}
+                headline={"Ao comprar"}
+                text={
+                  "O cliente informa o CPF no momento do pagamento. \r\n" +
+                  "Qualquer meio de pagamento, cartão, dinheiro, boleto! \r\n " +
+                  "Qualquer tipo de compra online, por telefone, pessoal, parcelada."
+                }
+              />
+            </Grid>
+            <Grid item xs>
+              <FeatureCard
+                Icon={<BuildIcon style={{ fontSize: iconSize }} />}
+                color={"#00C853"}
+                headline={"Ao vender"}
+                text={
+                  "O lojista cadatra os pontos do cliente na campanha. \r\n" +
+                  "Selecionando a campanha desejada e quantos pontos adicionar. \r\n" +
+                  "Se o usuário já tiver atigido o objetivo da campanha já é possível entregar a premiação!"
+                }
+              />
+            </Grid>
+            <Grid item xs>
+              <FeatureCard
+                Icon={<ComputerIcon style={{ fontSize: iconSize }} />}
+                color={"#d50000"}
+                headline={"Computando os pontos"}
+                text={
+                  "Os dados são computados instântaneamente e já é possível até obter a premiação! \r\n" +
+                   "É possível acompanhar a pontuação atualizada da campanha e planejar as próximas compras! \r\n" +
+                   "O lojista consegue visualizar o grau de fidelização, estimar quando as premiações serão realizadas e planejar novas campanhas!"
+                }
+              />
+            </Grid>
           </Grid>
         </div>
       </div>

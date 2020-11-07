@@ -50,7 +50,7 @@ function PricingSection(props) {
   return (
     <div className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
       <Typography variant="h3" align="center" className="lg-mg-bottom">
-        Pricing
+        Investimento dos lojistas parceiros
       </Typography>
       <div className={classNames("container-fluid", classes.containerFix)}>
         <Grid
@@ -67,14 +67,14 @@ function PricingSection(props) {
             data-aos="zoom-in-up"
           >
             <PriceCard
-              title="Starter"
+              title="Micro"
               pricing={
                 <span>
-                  $14.99
-                  <Typography display="inline"> / month</Typography>
+                  R$ 0.00
+                  <Typography display="inline"> / mês</Typography>
                 </span>
               }
-              features={["Feature 1", "Feature 2", "Feature 3"]}
+              features={["Somente 1 campanha ativa", "Até 1 mil pontos distribuidos", "1 usuário pode marcar a pontuação"]}
             />
           </Grid>
           <Grid
@@ -91,11 +91,11 @@ function PricingSection(props) {
               title="Premium"
               pricing={
                 <span>
-                  $29.99
-                  <Typography display="inline"> / month</Typography>
+                  R$10.00
+                  <Typography display="inline"> / mês</Typography>
                 </span>
               }
-              features={["Feature 1", "Feature 2", "Feature 3"]}
+              features={["5 campanhas ativas", "Até 5 mil pontos distribuidos", "3 usuários podem marcar a pontuação", "Retornado nas pesquisas"]}
             />
           </Grid>
           <Grid
@@ -108,14 +108,14 @@ function PricingSection(props) {
             data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
           >
             <PriceCard
-              title="Business"
+              title="Corporativo"
               pricing={
                 <span>
-                  $49.99
-                  <Typography display="inline"> / month</Typography>
+                  R$50.00
+                  <Typography display="inline"> / mês</Typography>
                 </span>
               }
-              features={["Feature 1", "Feature 2", "Feature 3"]}
+              features={["Quantidade ilimitada de campanhas", "Até 50 mil pontos distribuidos", "Até 10 usuários podem marar a pontuação", "Indicação especial nas pesquisas dos usuários"]}
             />
           </Grid>
           <Grid
@@ -128,14 +128,14 @@ function PricingSection(props) {
             data-aos-delay={isWidthUp("md", width) ? "600" : "200"}
           >
             <PriceCard
-              title="Tycoon"
+              title="Mundial"
               pricing={
                 <span>
-                  $99.99
-                  <Typography display="inline"> / month</Typography>
+                  Sob consulta
+                  <Typography display="inline"> / mês</Typography>
                 </span>
               }
-              features={["Feature 1", "Feature 2", "Feature 3"]}
+              features={["Quantidade ilimitada de campanhas", "Quantidade ilimitada de pontos distribuidos", "Quantidade ilimitada de usuários podem marcar os pontos", "Primeiro resultado em todas as pesquisas dos usuários"]}
             />
           </Grid>
         </Grid>
