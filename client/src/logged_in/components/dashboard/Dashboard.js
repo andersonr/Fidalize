@@ -5,6 +5,7 @@ import SettingsArea from "./SettingsArea";
 import UserDataArea from "./UserDataArea";
 import AccountInformationArea from "./AccountInformationArea";
 import StatisticsArea from "./StatisticsArea";
+import CampaignArea from './CampaignArea';
 
 function Dashboard(props) {
   const {
@@ -22,6 +23,7 @@ function Dashboard(props) {
 
   return (
     <Fragment>
+      <CampaignArea />
       <StatisticsArea CardChart={CardChart} data={statistics} />
       <Box mt={4}>
         <Typography variant="subtitle1" gutterBottom>
