@@ -19,6 +19,7 @@ routes.use(authMiddleware);
 routes.put('/users', UserController.update);
 routes.get('/providers', ProviderController.index);
 routes.post('/campaign', CampaignController.store);
+routes.get('/campaign', CampaignController.index);
 // routes.post('/files', upload.single('file'), FileController.store);
 // para upload de arquivos.
 
